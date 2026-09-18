@@ -1,3 +1,5 @@
+[MANUAL DE COMANDES DEL TERMINAL UBUNTU](manual.md)
+
 # BLOC 1: INICIACIÓ (20 exercicis)
 
 ### **Navegació i exploració bàsica**
