@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termex - Manual de Comandes del Terminal Ubuntu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0c10;
+            --panel-bg: #161b22;
+            --panel-border: #30363d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --accent: #00ff9d;
+            --accent-dim: rgba(0, 255, 157, 0.1);
+            --accent-secondary: #00b4d8;
+            --warning: #f0883e;
+            --font-mono: 'Fira Code', 'Courier New', monospace;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            background-image: 
+                linear-gradient(rgba(0, 255, 157, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 157, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Layout */
+        .container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--panel-bg);
+            border-right: 1px solid var(--panel-border);
+            padding: 2rem 1.5rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before { content: ">"; }
+
+        .nav-tree {
+            list-style: none;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+        }
+
+        .nav-tree li { margin: 0.5rem 0; }
+        
+        .nav-tree a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .nav-tree a:hover, .nav-tree a.active {
+            color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        .nav-tree .folder::before { content: "📁"; }
+        .nav-tree .file::before { content: "📄"; }
+        .nav-tree .final::before { content: "🔥"; color: var(--warning); }
+
+        /* Main Content */
+        .main-content {
+            padding: 3rem 4rem;
+            max-width: 900px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--panel-border);
+        }
+
+        h2 {
+            font-family: var(--font-mono);
+            color: var(--accent-secondary);
+            margin: 3rem 0 1.5rem 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h2::before {
+            content: "#";
+            color: var(--accent);
+        }
+
+        h3 {
+            color: var(--text-primary);
+            margin: 2rem 0 1rem 0;
+            font-size: 1.2rem;
+            border-left: 3px solid var(--accent);
+            padding-left: 1rem;
+        }
+
+        /* Exercise Cards */
+        .exercise-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            border-color: var(--accent);
+        }
+
+        .exercise-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            background: var(--accent-dim);
+            color: var(--accent);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .exercise-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .exercise-desc {
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+        }
+
+        /* Terminal Block */
+        .terminal-block {
+            background: #0d1117;
+            border-radius: 8px;
+            border: 1px solid var(--panel-border);
+            overflow: hidden;
+            position: relative;
+            margin-top: 1rem;
+        }
+
+        .terminal-header {
+            background: #161b22;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--panel-border);
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.red { background: #ff5f56; }
+        .dot.yellow { background: #ffbd2e; }
+        .dot.green { background: #27c93f; }
+
+        .terminal-title {
+            margin-left: auto;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        pre {
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        code { font-family: var(--font-mono); }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            color: var(--text-secondary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-dim);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .copy-btn.copied {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
+
+        /* Summary Grid */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .summary-item {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .summary-cmd {
+            font-family: var(--font-mono);
+            color: var(--accent);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .summary-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Final Project */
+        .final-project {
+            border: 2px solid var(--warning);
+            background: linear-gradient(135deg, rgba(240, 136, 62, 0.05), transparent);
+        }
+
+        .final-project .badge {
+            background: rgba(240, 136, 62, 0.2);
+            color: var(--warning);
+        }
+
+        .final-project h2 { color: var(--warning); }
+        .final-project h2::before { content: "🏆"; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; }
+            .sidebar { 
+                position: relative; 
+                height: auto; 
+                border-right: none; 
+                border-bottom: 1px solid var(--panel-border);
+                padding: 1.5rem;
+            }
+            .main-content { padding: 2rem 1.5rem; }
+            .nav-tree { 
+                display: flex; 
+                flex-wrap: wrap; 
+                gap: 0.5rem; 
+            }
+            .nav-tree li { margin: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <aside class="sidebar">
+        <div class="logo">termex</div>
+        <ul class="nav-tree">
+            <li><a href="#intro" class="file">README.md</a></li>
+            <li><a href="#bloc1" class="folder">bloc_1_iniciacio</a></li>
+            <li><a href="#bloc2" class="folder">bloc_2_intermedi</a></li>
+            <li><a href="#bloc3" class="folder">bloc_3_avancat</a></li>
+            <li><a href="#final" class="final">projecte_final.sh</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <section id="intro">
+            <h1>Manual de Comandes del Terminal Ubuntu</h1>
+            <p class="subtitle">Exercicis pràctics per dominar la línia de comandes, des de la navegació bàsica fins a l'automatització avançada amb Bash i Cron.</p>
+        </section>
+
+        <!-- BLOC 1 -->
+        <section id="bloc1">
+            <h2>BLOC 1: INICIACIÓ (20 exercicis)</h2>
+            
+            <h3>Navegació i exploració bàsica</h3>
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <span class="badge">Exercici 1</span>
+                    <span class="exercise-title">Orientació inicial</span>
+                </div>
+                <p class="exercise-desc">Obre una terminal nova i comprova tres coses: quin és el teu nom d'usuari, en quin directori et trobes actualment, i quina és la teva ruta absoluta (home directory).</p>
+                <div class="terminal-block">
+                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
+                    <pre><code>whoami
+pwd</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                </div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <span class="badge">Exercici 2</span>
+                    <span class="exercise-title">Explorar el directori home</span>
+                </div>
+                <p class="exercise-desc">Llista tot el contingut del teu directori personal, incloent els fitxers ocults (els que comencen amb punt). Identifica quins són fitxers i quins són directoris.</p>
+                <div class="terminal-block">
+                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
+                    <pre><code>ls -la</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                </div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <span class="badge">Exercici 3</span>
+                    <span class="exercise-title">Navegació pel sistema</span>
+                </div>
+                <p class="exercise-desc">Navega cap al directori arrel del sistema (`/`) i després cap al directori `/tmp`. Observa com canvia el prompt. Torna al teu directori personal utilitzant una comanda ràpida.</p>
+                <div class="terminal-block">
+                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
+                    <pre><code>cd /
+cd /tmp
+cd ~</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                </div>
+            </div>
+
+            <h3>Creació i manipulació de fitxers</h3>
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <span class="badge">Exercici 5</span>
+                    <span class="exercise-title">Crear un espai de treball</span>
+                </div>
+                <p class="exercise-desc">Al teu directori personal, crea una carpeta anomenada `practiques_terminal`. Dins d'aquesta carpeta, crea dues subcarpetes: `exercicis` i `notes`.</p>
+                <div class="terminal-block">
+                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
+                    <pre><code>mkdir -p practiques_terminal/{exercicis,notes}</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                </div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <span class="badge">Exercici 7</span>
+                    <span class="exercise-title">Crear contingut amb echo</span>
+                </div>
+                <p class="exercise-desc">Utilitza la comanda `echo` per escriure "Hola Terminal!" dins del fitxer `exercici1.txt`. Després verifica que el contingut s'ha guardat correctament.</p>
+                <div class="terminal-block">
+                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
+                    <pre><code>echo "Hola Terminal!" > exercici1.txt
+cat exercici1.txt</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                </div>
+            </div>
+            
+            <p style="color: var(--text-secondary); font-style: italic; margin: 2rem 0;">*(...i 15 exercicis més d'iniciació sobre visualització, operacions bàsiques i informació del sistema)</p>
+
+            <h3>Resum de comandes del Bloc 1</h3>
+            <div class="summary-grid">
+                <div class="summary-item"><span class="summary-cmd">whoami / pwd</span><span class="summary-desc">Mostra usuari actual i directori de treball.</span></div>
+                <div class="summary-item"><span class="summary-cmd">ls -la</span><span class="summary-desc">Llista detallada incloent fitxers ocults.</span></div>
+                <div class="summary-item"><span class="summary-cmd">mkdir -p</span><span class="summary-desc">Crea directoris i subdirectoris simultàniament.</span></div>
+                <div class="summary-item"><span class="summary-cmd">cat / head / tail</span><span class="summary-desc">Visualització completa, inici o final de fitxers.</span></div>
+                <div class="summary-item"><span class="summary-cmd">rm -r / rmdir</span><span class="summary-desc">Eliminació de directoris amb o sense contingut.</span></div>
+                <div class="summary-item"><span class="summary-cmd">df -h / du -sh</span><span class="summary-desc">Espai lliure al disc i mida de carpetes.</span></div>
+            </div>
+        </section>
+
+        <!-- BLOC 2 -->
+        <section id="bloc2">
+            <h2>BLOC 2: NIVELL INTERMEDI (20 exercicis)</h2>
+            
+            <h3>Permisos i seguretat de fitxers</h3>
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <span class="badge">Exercici 2</span>
+                    <span class="exercise-title">Crear i executar un script</span>
+                </div>
+                <p class="exercise-desc">Crea un fitxer anomenat `saluda.sh` i escriu-hi dins `echo "Hola, sóc un script!"`. Intenta executar-lo directament. Què passa? Ara dona-li permisos d'execució i torna-ho a provar.</p>
+                <div class="terminal-block">
+                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
+                    <pre><code>echo 'echo "Hola, sóc un script!"' > saluda.sh
+chmod +x saluda.sh
+./saluda.sh</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                </div>
+            </div>
+
+            <h3>Tuberías (Pipes) i Redirecció</h3>
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <span class="badge">Exercici 10</span>
+                    <span class="exercise-title">Encadenar comandes (Pipe)</span>
+                </div>
+                <p class="exercise-desc">Llista tots els processos que contenen la paraula "bash" combinant `ps` i `grep` mitjançant una tubería (`|`).</p>
+                <div class="terminal-block">
+                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
+                    <pre><code>ps aux | grep bash</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                </div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <span class="badge">Exercici 12</span>
+                    <span class="exercise-title">Redirigir errors</span>
+                </div>
+                <p class="exercise-desc">Intenta llistar el contingut d'un directori on no tens permisos (ex: `/root`). Redirigeix només el missatge d'error a un fitxer anomenat `errors.log`.</p>
+                <div class="terminal-block">
+                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
+                    <pre><code>ls /root 2> practiques_terminal/errors.log</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                </div>
+            </div>
+
+            <h3>Resum de comandes del Bloc 2</h3>
+            <div class="summary-grid">
+                <div class="summary-item"><span class="summary-cmd">chmod / chown</span><span class="summary-desc">Gestió de permisos i propietat de fitxers.</span></div>
+                <div class="summary-item"><span class="summary-cmd">find / grep</span><span class="summary-desc">Cerca avançada de fitxers i patrons de text.</span></div>
+                <div class="summary-item"><span class="summary-cmd">| (Pipe)</span><span class="summary-desc">Connecta la sortida d'una comanda a l'entrada d'una altra.</span></div>
+                <div class="summary-item"><span class="summary-cmd">> / 2> / >></span><span class="summary-desc">Redirecció de sortida estàndard i d'errors.</span></div>
+                <div class="summary-item"><span class="summary-cmd">tar -czvf / xzvf</span><span class="summary-desc">Compressió i descompressió d'arxius.</span></div>
+            </div>
+        </section>
+
+        <!-- BLOC 3 -->
+        <section id="bloc3">
+            <h2>BLOC 3: NIVELL AVANÇAT (20 exercicis)</h2>
+            
+            <h3>Scripts Bash: Automatització bàsica</h3>
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <span class="badge">Exercici 1</span>
+                    <span class="exercise-title">El teu primer script amb variables</span>
+                </div>
+                <p class="exercise-desc">Crea un script anomenat `info_sistema.sh` que mostri per pantalla el nom d'usuari, la data actual i el directori on s'està executant.</p>
+                <div class="terminal-block">
+                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">info_sistema.sh</span></div>
+                    <pre><code>#!/bin/bash
+echo "Usuari: $USER"
+echo "Data: $(date)"
+echo "Directori: $(pwd)"</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                </div>
+            </div>
+
+            <h3>Gestió de paquets i serveis</h3>
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <span class="badge">Exercici 8</span>
+                    <span class="exercise-title">Gestionar serveis amb systemd</span>
+                </div>
+                <p class="exercise-desc">Comprova l'estat del servei SSH. Si no està actiu, inicia'l. Després, mira els últims 20 registres del servei.</p>
+                <div class="terminal-block">
+                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
+                    <pre><code>systemctl status ssh
+sudo systemctl start ssh
+sudo journalctl -u ssh -n 20</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                </div>
+            </div>
+
+            <h3>Processament avançat de text</h3>
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <span class="badge">Exercici 19</span>
+                    <span class="exercise-title">Processar text amb awk</span>
+                </div>
+                <p class="exercise-desc">Utilitza `awk` per mostrar només el nom d'usuari (primera columna) i el seu shell (última columna) del fitxer `/etc/passwd`.</p>
+                <div class="terminal-block">
+                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
+                    <pre><code>awk -F: '{print $1, $7}' /etc/passwd</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTE FINAL -->
+        <section id="final">
+            <div class="exercise-card final-project">
+                <div class="exercise-header">
+                    <span class="badge">PROJECTE FINAL</span>
+                    <span class="exercise-title">Script de backup automatitzat</span>
+                </div>
+                <p class="exercise-desc">Crea un script anomenat `backup.sh` que integri tots els coneixements adquirits:</p>
+                <ol style="color: var(--text-secondary); margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                    <li>Rebi com a argument una carpeta a copiar.</li>
+                    <li>Comprovi si la carpeta existeix (condicional <code>if</code>).</li>
+                    <li>Creï un arxiu <code>.tar.gz</code> amb la data actual al nom.</li>
+                    <li>Mogui l'arxiu a una carpeta <code>~/backups</code>.</li>
+                    <li>Registri l'operació a un fitxer <code>backup.log</code> amb data i hora.</li>
+                    <li>Programa'l amb <code>cron</code> per executar-se cada diumenge a les 23:00h.</li>
+                </ol>
+                <div class="terminal-block">
+                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">crontab -e</span></div>
+                    <pre><code>0 23 * * 0 /ruta/al/teu/backup.sh >> ~/backup.log 2>&1</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                </div>
+            </div>
+        </section>
+
+        <footer style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--panel-border); color: var(--text-secondary); font-size: 0.9rem; text-align: center;">
+            <p>Generat a partir del repositori <a href="https://github.com/rusben/termex" style="color: var(--accent); text-decoration: none;">rusben/termex</a> | Format HTML interactiu</p>
+        </footer>
+    </main>
+</div>
+
+<script>
+    // Funció per copiar el codi al portapapers
+    function copyCode(button) {
+        const codeBlock = button.parentElement.querySelector('code');
+        const text = codeBlock.innerText;
+        
+        navigator.clipboard.writeText(text).then(() => {
+            const originalText = button.innerHTML;
+            button.innerHTML = '✓ Copiat!';
+            button.classList.add('copied');
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.classList.remove('copied');
+            }, 2000);
+        }).catch(err => {
+            console.error('Error al copiar:', err);
+        });
+    }
+
+    // Efecte de navegació activa
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-tree a');
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (scrollY >= sectionTop - 100) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').slice(1) === current) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Smooth scroll per als enllaços
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
