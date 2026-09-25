@@ -6,10 +6,10 @@
     <title>Termex - Manual de Comandes del Terminal Ubuntu</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0a0c10;
+            --bg-color: #0d1117;
             --panel-bg: #161b22;
             --panel-border: #30363d;
             --text-primary: #e6edf3;
@@ -18,11 +18,11 @@
             --accent-dim: rgba(0, 255, 157, 0.1);
             --accent-secondary: #00b4d8;
             --warning: #f0883e;
-            --font-mono: 'Fira Code', 'Courier New', monospace;
-            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'Fira Code', monospace;
+            --font-sans: 'Inter', sans-serif;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
         
         body {
             background-color: var(--bg-color);
@@ -35,154 +35,127 @@
             background-size: 40px 40px;
         }
 
-        /* Layout */
-        .container {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            max-width: 1400px;
-            margin: 0 auto;
-            min-height: 100vh;
-        }
+        .container { display: grid; grid-template-columns: 260px 1fr; max-width: 1400px; margin: 0 auto; }
 
         /* Sidebar */
         .sidebar {
             background: var(--panel-bg);
             border-right: 1px solid var(--panel-border);
-            padding: 2rem 1.5rem;
+            padding: 2rem 1rem;
             position: sticky;
             top: 0;
             height: 100vh;
             overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--panel-border) transparent;
         }
 
         .logo {
             font-family: var(--font-mono);
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 800;
             color: var(--accent);
             margin-bottom: 2rem;
+            padding-left: 0.5rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-
         .logo::before { content: ">"; }
 
-        .nav-tree {
-            list-style: none;
-            font-family: var(--font-mono);
-            font-size: 0.9rem;
+        .nav-section { margin-bottom: 1.5rem; }
+        .nav-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            padding-left: 0.5rem;
+            font-weight: 600;
         }
 
-        .nav-tree li { margin: 0.5rem 0; }
-        
+        .nav-tree { list-style: none; font-family: var(--font-mono); font-size: 0.85rem; }
+        .nav-tree li { margin: 0.25rem 0; }
         .nav-tree a {
             color: var(--text-secondary);
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.5rem;
+            padding: 0.4rem 0.5rem;
             border-radius: 6px;
             transition: all 0.2s;
         }
-
         .nav-tree a:hover, .nav-tree a.active {
             color: var(--accent);
             background: var(--accent-dim);
         }
-
         .nav-tree .folder::before { content: "📁"; }
         .nav-tree .file::before { content: "📄"; }
-        .nav-tree .final::before { content: "🔥"; color: var(--warning); }
+        .nav-tree .final::before { content: "🔥"; }
 
         /* Main Content */
-        .main-content {
-            padding: 3rem 4rem;
-            max-width: 900px;
-        }
+        .main-content { padding: 3rem 4rem 6rem 4rem; }
 
         h1 {
             font-size: 2.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
-        .subtitle {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--panel-border);
-        }
+        .subtitle { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--panel-border); }
 
         h2 {
             font-family: var(--font-mono);
             color: var(--accent-secondary);
-            margin: 3rem 0 1.5rem 0;
+            margin: 4rem 0 1.5rem 0;
             font-size: 1.5rem;
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--panel-border);
         }
-
-        h2::before {
-            content: "#";
-            color: var(--accent);
-        }
+        h2::before { content: "#"; color: var(--accent); }
 
         h3 {
             color: var(--text-primary);
-            margin: 2rem 0 1rem 0;
-            font-size: 1.2rem;
+            margin: 2.5rem 0 1rem 0;
+            font-size: 1.1rem;
             border-left: 3px solid var(--accent);
             padding-left: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* Exercise Cards */
         .exercise-card {
             background: var(--panel-bg);
             border: 1px solid var(--panel-border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            transition: transform 0.2s, box-shadow 0.2s;
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
         }
-
         .exercise-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
             border-color: var(--accent);
         }
 
-        .exercise-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
+        .exercise-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
         .badge {
             background: var(--accent-dim);
             color: var(--accent);
             font-family: var(--font-mono);
-            font-size: 0.8rem;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
             font-weight: 600;
         }
-
-        .exercise-title {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .exercise-desc {
-            color: var(--text-secondary);
-            margin-bottom: 1.25rem;
-        }
+        .exercise-title { font-weight: 600; font-size: 1.05rem; color: var(--text-primary); }
+        .exercise-desc { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1rem; }
 
         /* Terminal Block */
         .terminal-block {
@@ -191,129 +164,80 @@
             border: 1px solid var(--panel-border);
             overflow: hidden;
             position: relative;
-            margin-top: 1rem;
         }
-
         .terminal-header {
             background: #161b22;
-            padding: 0.75rem 1rem;
+            padding: 0.6rem 1rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
             border-bottom: 1px solid var(--panel-border);
         }
-
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
         .dot.red { background: #ff5f56; }
         .dot.yellow { background: #ffbd2e; }
         .dot.green { background: #27c93f; }
+        .terminal-title { margin-left: auto; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); }
 
-        .terminal-title {
-            margin-left: auto;
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        pre {
-            padding: 1rem;
-            overflow-x: auto;
-            font-family: var(--font-mono);
-            font-size: 0.9rem;
-            color: var(--text-primary);
-        }
-
+        pre { padding: 1rem; overflow-x: auto; font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-primary); margin: 0; }
         code { font-family: var(--font-mono); }
 
         .copy-btn {
             position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
+            top: 0.5rem;
+            right: 0.5rem;
             background: var(--panel-bg);
             border: 1px solid var(--panel-border);
             color: var(--text-secondary);
-            padding: 0.4rem 0.8rem;
+            padding: 0.3rem 0.6rem;
             border-radius: 6px;
             font-family: var(--font-mono);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 0.4rem;
             transition: all 0.2s;
+            opacity: 0;
         }
-
-        .copy-btn:hover {
-            background: var(--accent-dim);
-            color: var(--accent);
-            border-color: var(--accent);
-        }
-
-        .copy-btn.copied {
-            background: var(--accent);
-            color: #000;
-            border-color: var(--accent);
-        }
+        .terminal-block:hover .copy-btn { opacity: 1; }
+        .copy-btn:hover { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
+        .copy-btn.copied { background: var(--accent); color: #000; border-color: var(--accent); opacity: 1; }
 
         /* Summary Grid */
         .summary-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 0.75rem;
             margin-top: 1.5rem;
+            margin-bottom: 3rem;
         }
-
         .summary-item {
             background: var(--panel-bg);
             border: 1px solid var(--panel-border);
             border-radius: 8px;
             padding: 1rem;
         }
-
-        .summary-cmd {
-            font-family: var(--font-mono);
-            color: var(--accent);
-            font-weight: 600;
-            display: block;
-            margin-bottom: 0.25rem;
-        }
-
-        .summary-desc {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
+        .summary-cmd { font-family: var(--font-mono); color: var(--accent); font-weight: 600; display: block; margin-bottom: 0.25rem; font-size: 0.9rem; }
+        .summary-desc { font-size: 0.85rem; color: var(--text-secondary); }
 
         /* Final Project */
         .final-project {
             border: 2px solid var(--warning);
             background: linear-gradient(135deg, rgba(240, 136, 62, 0.05), transparent);
         }
-
-        .final-project .badge {
-            background: rgba(240, 136, 62, 0.2);
-            color: var(--warning);
-        }
-
-        .final-project h2 { color: var(--warning); }
+        .final-project .badge { background: rgba(240, 136, 62, 0.2); color: var(--warning); }
+        .final-project h2 { color: var(--warning); border-bottom-color: var(--warning); }
         .final-project h2::before { content: "🏆"; }
 
         /* Responsive */
         @media (max-width: 900px) {
             .container { grid-template-columns: 1fr; }
-            .sidebar { 
-                position: relative; 
-                height: auto; 
-                border-right: none; 
-                border-bottom: 1px solid var(--panel-border);
-                padding: 1.5rem;
-            }
+            .sidebar { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--panel-border); padding: 1.5rem; }
             .main-content { padding: 2rem 1.5rem; }
-            .nav-tree { 
-                display: flex; 
-                flex-wrap: wrap; 
-                gap: 0.5rem; 
-            }
+            .nav-tree { display: flex; flex-wrap: wrap; gap: 0.5rem; }
             .nav-tree li { margin: 0; }
+            .nav-section { margin-bottom: 0.5rem; width: 100%; }
         }
     </style>
 </head>
@@ -322,13 +246,54 @@
 <div class="container">
     <aside class="sidebar">
         <div class="logo">termex</div>
-        <ul class="nav-tree">
-            <li><a href="#intro" class="file">README.md</a></li>
-            <li><a href="#bloc1" class="folder">bloc_1_iniciacio</a></li>
-            <li><a href="#bloc2" class="folder">bloc_2_intermedi</a></li>
-            <li><a href="#bloc3" class="folder">bloc_3_avancat</a></li>
-            <li><a href="#final" class="final">projecte_final.sh</a></li>
-        </ul>
+        
+        <div class="nav-section">
+            <div class="nav-title">General</div>
+            <ul class="nav-tree">
+                <li><a href="#intro" class="file">README.md</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Bloc 1: Iniciació</div>
+            <ul class="nav-tree">
+                <li><a href="#b1-nav">Navegació</a></li>
+                <li><a href="#b1-creacio">Creació fitxers</a></li>
+                <li><a href="#b1-vis">Visualització</a></li>
+                <li><a href="#b1-op">Operacions</a></li>
+                <li><a href="#b1-info">Info sistema</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Bloc 2: Intermedi</div>
+            <ul class="nav-tree">
+                <li><a href="#b2-permisos">Permisos</a></li>
+                <li><a href="#b2-cerques">Cerques</a></li>
+                <li><a href="#b2-pipes">Pipes i Redirecció</a></li>
+                <li><a href="#b2-processos">Processos</a></li>
+                <li><a href="#b2-compressio">Compressió i Entorn</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Bloc 3: Avançat</div>
+            <ul class="nav-tree">
+                <li><a href="#b3-scripts">Scripts Bash</a></li>
+                <li><a href="#b3-paquets">Paquets i Serveis</a></li>
+                <li><a href="#b3-xarxa">Xarxa</a></li>
+                <li><a href="#b3-usuaris">Usuaris</a></li>
+                <li><a href="#b3-cron">Cron</a></li>
+                <li><a href="#b3-text">Text avançat</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Final</div>
+            <ul class="nav-tree">
+                <li><a href="#final" class="final">Projecte Final</a></li>
+            </ul>
+        </div>
     </aside>
 
     <main class="main-content">
@@ -337,82 +302,153 @@
             <p class="subtitle">Exercicis pràctics per dominar la línia de comandes, des de la navegació bàsica fins a l'automatització avançada amb Bash i Cron.</p>
         </section>
 
-        <!-- BLOC 1 -->
+        <!-- ================= BLOC 1 ================= -->
         <section id="bloc1">
             <h2>BLOC 1: INICIACIÓ (20 exercicis)</h2>
             
-            <h3>Navegació i exploració bàsica</h3>
-            <div class="exercise-card">
-                <div class="exercise-header">
-                    <span class="badge">Exercici 1</span>
-                    <span class="exercise-title">Orientació inicial</span>
-                </div>
-                <p class="exercise-desc">Obre una terminal nova i comprova tres coses: quin és el teu nom d'usuari, en quin directori et trobes actualment, i quina és la teva ruta absoluta (home directory).</p>
-                <div class="terminal-block">
-                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
-                    <pre><code>whoami
-pwd</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
-                </div>
-            </div>
-
-            <div class="exercise-card">
-                <div class="exercise-header">
-                    <span class="badge">Exercici 2</span>
-                    <span class="exercise-title">Explorar el directori home</span>
-                </div>
-                <p class="exercise-desc">Llista tot el contingut del teu directori personal, incloent els fitxers ocults (els que comencen amb punt). Identifica quins són fitxers i quins són directoris.</p>
-                <div class="terminal-block">
-                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
-                    <pre><code>ls -la</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
-                </div>
-            </div>
-
-            <div class="exercise-card">
-                <div class="exercise-header">
-                    <span class="badge">Exercici 3</span>
-                    <span class="exercise-title">Navegació pel sistema</span>
-                </div>
-                <p class="exercise-desc">Navega cap al directori arrel del sistema (`/`) i després cap al directori `/tmp`. Observa com canvia el prompt. Torna al teu directori personal utilitzant una comanda ràpida.</p>
-                <div class="terminal-block">
-                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
-                    <pre><code>cd /
-cd /tmp
-cd ~</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
-                </div>
-            </div>
-
-            <h3>Creació i manipulació de fitxers</h3>
-            <div class="exercise-card">
-                <div class="exercise-header">
-                    <span class="badge">Exercici 5</span>
-                    <span class="exercise-title">Crear un espai de treball</span>
-                </div>
-                <p class="exercise-desc">Al teu directori personal, crea una carpeta anomenada `practiques_terminal`. Dins d'aquesta carpeta, crea dues subcarpetes: `exercicis` i `notes`.</p>
-                <div class="terminal-block">
-                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
-                    <pre><code>mkdir -p practiques_terminal/{exercicis,notes}</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
-                </div>
-            </div>
-
-            <div class="exercise-card">
-                <div class="exercise-header">
-                    <span class="badge">Exercici 7</span>
-                    <span class="exercise-title">Crear contingut amb echo</span>
-                </div>
-                <p class="exercise-desc">Utilitza la comanda `echo` per escriure "Hola Terminal!" dins del fitxer `exercici1.txt`. Després verifica que el contingut s'ha guardat correctament.</p>
-                <div class="terminal-block">
-                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
-                    <pre><code>echo "Hola Terminal!" > exercici1.txt
-cat exercici1.txt</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
-                </div>
-            </div>
+            <h3 id="b1-nav">Navegació i exploració bàsica</h3>
             
-            <p style="color: var(--text-secondary); font-style: italic; margin: 2rem 0;">*(...i 15 exercicis més d'iniciació sobre visualització, operacions bàsiques i informació del sistema)</p>
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 1</span><span class="exercise-title">Orientació inicial</span></div>
+                <p class="exercise-desc">Obre una terminal nova i comprova tres coses: quin és el teu nom d'usuari, en quin directori et trobes actualment, i quina és la teva ruta absoluta (home directory).</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>whoami
+pwd</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 2</span><span class="exercise-title">Explorar el directori home</span></div>
+                <p class="exercise-desc">Llista tot el contingut del teu directori personal, incloent els fitxers ocults (els que comencen amb punt). Identifica quins són fitxers i quins són directoris.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>ls -la</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 3</span><span class="exercise-title">Navegació pel sistema</span></div>
+                <p class="exercise-desc">Navega cap al directori arrel del sistema (`/`) i després cap al directori `/tmp`. Observa com canvia el prompt. Torna al teu directori personal utilitzant una comanda ràpida.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>cd /
+cd /tmp
+cd ~</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 4</span><span class="exercise-title">Explorar directoris del sistema</span></div>
+                <p class="exercise-desc">Entra al directori `/var/log` i llista els 10 primers fitxers que hi trobis. Quin tipus d'informació creus que contenen aquests fitxers?</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>cd /var/log
+ls</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <h3 id="b1-creacio">Creació i manipulació de fitxers</h3>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 5</span><span class="exercise-title">Crear un espai de treball</span></div>
+                <p class="exercise-desc">Al teu directori personal, crea una carpeta anomenada `practiques_terminal`. Dins d'aquesta carpeta, crea dues subcarpetes: `exercicis` i `notes`.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>mkdir practiques_terminal
+mkdir -p practiques_terminal/{exercicis,notes}</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 6</span><span class="exercise-title">Crear fitxers buits</span></div>
+                <p class="exercise-desc">Dins de `practiques_terminal/exercicis`, crea tres fitxers buits amb els noms: `exercici1.txt`, `exercici2.txt`, i `exercici3.txt`.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>touch practiques_terminal/exercicis/exercici{1,2,3}.txt</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 7</span><span class="exercise-title">Crear contingut amb echo</span></div>
+                <p class="exercise-desc">Utilitza la comanda `echo` per escriure "Hola Terminal!" dins del fitxer `exercici1.txt`. Després verifica que el contingut s'ha guardat correctament.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>echo "Hola Terminal!" > exercici1.txt
+cat exercici1.txt</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 8</span><span class="exercise-title">Afegir contingut a un fitxer</span></div>
+                <p class="exercise-desc">Afegeix una segona línia al fitxer `exercici1.txt` amb el text "Segona línia". Atenció: no sobrescriure el contingut anterior!</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>echo "Segona línia" >> exercici1.txt
+cat exercici1.txt</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 9</span><span class="exercise-title">Copiar fitxers</span></div>
+                <p class="exercise-desc">Fes una còpia de `exercici1.txt` i anomena-la `exercici1_backup.txt`. Després verifica que ambdós fitxers existeixen.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>cp exercici1.txt exercici1_backup.txt
+ls</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <h3 id="b1-vis">Visualització de contingut</h3>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 10</span><span class="exercise-title">Llegir fitxers del sistema</span></div>
+                <p class="exercise-desc">Visualitza el contingut del fitxer `/etc/hostname`. Què mostra?</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>cat /etc/hostname</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 11</span><span class="exercise-title">Veure les primeres línies</span></div>
+                <p class="exercise-desc">Visualitza només les 5 primeres línies del fitxer `/etc/passwd`.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>head -n 5 /etc/passwd</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 12</span><span class="exercise-title">Veure les últimes línies</span></div>
+                <p class="exercise-desc">Visualitza les últimes 3 línies del fitxer `/var/log/syslog` (o `/var/log/auth.log` si no existeix).</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>tail -n 3 /var/log/syslog</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 13</span><span class="exercise-title">Navegar per fitxers llargs</span></div>
+                <p class="exercise-desc">Utilitza la comanda `less` per explorar el fitxer `/etc/services`. Mou-te amunt i avall amb les fletxes, i surt amb la tecla `q`.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>less /etc/services</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <h3 id="b1-op">Operacions bàsiques avançades</h3>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 14</span><span class="exercise-title">Renombrar fitxers</span></div>
+                <p class="exercise-desc">Canvia el nom del fitxer `exercici3.txt` a `exercici_final.txt`.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>mv exercici3.txt exercici_final.txt</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 15</span><span class="exercise-title">Moure fitxers entre directoris</span></div>
+                <p class="exercise-desc">Mou el fitxer `exercici1_backup.txt` de la carpeta `exercicis` a la carpeta `notes`.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>mv exercici1_backup.txt notes/</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 16</span><span class="exercise-title">Eliminar fitxers</span></div>
+                <p class="exercise-desc">Elimina el fitxer `exercici2.txt`. Confirma que ja no existeix.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>rm exercici2.txt
+ls</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 17</span><span class="exercise-title">Eliminar directoris buits</span></div>
+                <p class="exercise-desc">Dins de `practiques_terminal`, crea una carpeta buida anomenada `temporal` i després elimina-la.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>mkdir temporal
+rmdir temporal</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 18</span><span class="exercise-title">Eliminar directoris amb contingut</span></div>
+                <p class="exercise-desc">Intenta eliminar la carpeta `notes` amb `rmdir`. Què passa? Ara elimina-la correctament juntament amb tot el seu contingut.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>rmdir notes
+rm -r notes</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <h3 id="b1-info">Informació del sistema</h3>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 19</span><span class="exercise-title">Informació del sistema</span></div>
+                <p class="exercise-desc">Mostra informació sobre el teu sistema: nom del nucli (kernel), versió del sistema operatiu, i arquitectura del processador.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>uname -r
+cat /etc/os-release
+uname -m</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 20</span><span class="exercise-title">Espai en disc</span></div>
+                <p class="exercise-desc">Comprova quant espai en disc ocupa la teva carpeta `practiques_terminal` i quant espai lliure tens a la teva partició principal.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>du -sh practiques_terminal
+df -h</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
 
             <h3>Resum de comandes del Bloc 1</h3>
             <div class="summary-grid">
@@ -425,51 +461,148 @@ cat exercici1.txt</code></pre>
             </div>
         </section>
 
-        <!-- BLOC 2 -->
+        <!-- ================= BLOC 2 ================= -->
         <section id="bloc2">
             <h2>BLOC 2: NIVELL INTERMEDI (20 exercicis)</h2>
             
-            <h3>Permisos i seguretat de fitxers</h3>
+            <h3 id="b2-permisos">Permisos i seguretat de fitxers</h3>
+            
             <div class="exercise-card">
-                <div class="exercise-header">
-                    <span class="badge">Exercici 2</span>
-                    <span class="exercise-title">Crear i executar un script</span>
-                </div>
-                <p class="exercise-desc">Crea un fitxer anomenat `saluda.sh` i escriu-hi dins `echo "Hola, sóc un script!"`. Intenta executar-lo directament. Què passa? Ara dona-li permisos d'execució i torna-ho a provar.</p>
-                <div class="terminal-block">
-                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
-                    <pre><code>echo 'echo "Hola, sóc un script!"' > saluda.sh
+                <div class="exercise-header"><span class="badge">Ex 1</span><span class="exercise-title">Analitzar permisos</span></div>
+                <p class="exercise-desc">Llista el contingut de la carpeta `practiques_terminal/exercicis` amb el format detallat. Identifica què signifiquen les lletres i números que apareixen a l'esquerra de cada línia.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>ls -l practiques_terminal/exercicis</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 2</span><span class="exercise-title">Crear i executar un script</span></div>
+                <p class="exercise-desc">Crea un fitxer anomenat `saluda.sh` i escriu-hi dins `echo "Hola, sóc un script!"`. Intenta executar-lo directament. Ara dona-li permisos d'execució i torna-ho a provar.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>echo 'echo "Hola, sóc un script!"' > saluda.sh
 chmod +x saluda.sh
-./saluda.sh</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
-                </div>
+./saluda.sh</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
             </div>
 
-            <h3>Tuberías (Pipes) i Redirecció</h3>
             <div class="exercise-card">
-                <div class="exercise-header">
-                    <span class="badge">Exercici 10</span>
-                    <span class="exercise-title">Encadenar comandes (Pipe)</span>
-                </div>
+                <div class="exercise-header"><span class="badge">Ex 3</span><span class="exercise-title">Permisos restrictius</span></div>
+                <p class="exercise-desc">Canvia els permisos del fitxer `exercici1.txt` perquè **només** el propietari pugui llegir-lo i escriure-hi, i que la resta d'usuaris no tinguin cap permís.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>chmod 600 exercici1.txt
+ls -l exercici1.txt</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 4</span><span class="exercise-title">Permisos per a tothom (lectura)</span></div>
+                <p class="exercise-desc">Modifica els permisos de `exercici1.txt` perquè el propietari pugui llegir i escriure, però que el grup i la resta d'usuaris només puguin llegir-lo.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>chmod 644 exercici1.txt</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <h3 id="b2-cerques">Cerques avançades i filtratge de text</h3>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 5</span><span class="exercise-title">Buscar fitxers per nom</span></div>
+                <p class="exercise-desc">Utilitza la comanda `find` per buscar tots els fitxers que acabin en `.txt` dins de la carpeta `practiques_terminal` i els seus subdirectoris.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>find practiques_terminal -name "*.txt"</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 6</span><span class="exercise-title">Cercar text dins de fitxers</span></div>
+                <p class="exercise-desc">Utilitza `grep` per buscar la paraula "Hola" dins del fitxer `exercici1.txt`.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>grep "Hola" exercici1.txt</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 7</span><span class="exercise-title">Cerca recursiva i insensible</span></div>
+                <p class="exercise-desc">Cerca la paraula "terminal" (en qualsevol combinació de majúscules/minúscules) dins de tots els fitxers de la carpeta `practiques_terminal`.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>grep -ri "terminal" practiques_terminal</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 8</span><span class="exercise-title">Buscar fitxers per mida</span></div>
+                <p class="exercise-desc">Utilitza `find` per localitzar qualsevol fitxer dins del teu directori personal (`~`) que tingui una mida superior a 100 Kilobytes.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>find ~ -type f -size +100k</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <h3 id="b2-pipes">Tuberías (Pipes) i Redirecció</h3>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 9</span><span class="exercise-title">Comptar elements</span></div>
+                <p class="exercise-desc">Utilitza la comanda `wc` (word count) per saber quantes línies, paraules i caràcters té el fitxer `/etc/passwd`.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>wc /etc/passwd</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 10</span><span class="exercise-title">Encadenar comandes (Pipe)</span></div>
                 <p class="exercise-desc">Llista tots els processos que contenen la paraula "bash" combinant `ps` i `grep` mitjançant una tubería (`|`).</p>
-                <div class="terminal-block">
-                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
-                    <pre><code>ps aux | grep bash</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
-                </div>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>ps aux | grep bash</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
             </div>
 
             <div class="exercise-card">
-                <div class="exercise-header">
-                    <span class="badge">Exercici 12</span>
-                    <span class="exercise-title">Redirigir errors</span>
-                </div>
+                <div class="exercise-header"><span class="badge">Ex 11</span><span class="exercise-title">Ordenar i guardar</span></div>
+                <p class="exercise-desc">Llista el contingut de `/etc`, ordena alfabèticament el resultat i guarda-lo en un fitxer anomenat `llista_etc.txt` dins de `practiques_terminal`.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>ls /etc | sort > practiques_terminal/llista_etc.txt</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 12</span><span class="exercise-title">Redirigir errors</span></div>
                 <p class="exercise-desc">Intenta llistar el contingut d'un directori on no tens permisos (ex: `/root`). Redirigeix només el missatge d'error a un fitxer anomenat `errors.log`.</p>
-                <div class="terminal-block">
-                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
-                    <pre><code>ls /root 2> practiques_terminal/errors.log</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
-                </div>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>ls /root 2> practiques_terminal/errors.log</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <h3 id="b2-processos">Gestió de processos</h3>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 13</span><span class="exercise-title">Observar processos en temps real</span></div>
+                <p class="exercise-desc">Obre la comanda `top` per veure els processos que consumeixen més recursos. Prem la tecla `q` per sortir-ne.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>top</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 14</span><span class="exercise-title">Executar en segon pla</span></div>
+                <p class="exercise-desc">Executa la comanda `sleep 100` perquè s'executi en segon pla (background) afegint un `&` al final. Després, comprova que està executant-se.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>sleep 100 &
+jobs</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 15</span><span class="exercise-title">Trobar el PID d'un procés</span></div>
+                <p class="exercise-desc">Utilitza `ps` i `grep` per trobar el número d'identificació de procés (PID) del `sleep` que acabes de llançar.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>ps aux | grep sleep</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 16</span><span class="exercise-title">Aturar un procés</span></div>
+                <p class="exercise-desc">Utilitza la comanda `kill` seguida del PID que has trobat a l'exercici anterior per aturar el procés `sleep`. Verifica amb `jobs` o `ps` que ja no existeix.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>kill <PID>
+jobs</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <h3 id="b2-compressio">Compressió, arxiu i entorn</h3>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 17</span><span class="exercise-title">Comprimir una carpeta</span></div>
+                <p class="exercise-desc">Crea un arxiu comprimit en format `.tar.gz` que contingui tota la carpeta `practiques_terminal/exercicis`. Anomena l'arxiu `backup_exercicis.tar.gz`.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>tar -czvf backup_exercicis.tar.gz practiques_terminal/exercicis</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 18</span><span class="exercise-title">Descomprimir en un lloc diferent</span></div>
+                <p class="exercise-desc">Crea una carpeta nova anomenada `restauracio` i descomprimeix l'arxiu `backup_exercicis.tar.gz` dins d'aquesta carpeta.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>mkdir restauracio
+tar -xzvf backup_exercicis.tar.gz -C restauracio</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 19</span><span class="exercise-title">Crear un àlies</span></div>
+                <p class="exercise-desc">Crea un àlies temporal anomenat `ll` que sigui equivalent a executar `ls -la`. Prova l'àlies i després elimina'l.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>alias ll='ls -la'
+ll
+unalias ll</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 20</span><span class="exercise-title">Consultar variables d'entorn</span></div>
+                <p class="exercise-desc">Utilitza `echo` per mostrar el valor de les variables d'entorn `$USER`, `$HOME` i `$PATH`. Explica breument què fa cadascuna.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>echo $USER
+echo $HOME
+echo $PATH</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
             </div>
 
             <h3>Resum de comandes del Bloc 2</h3>
@@ -479,62 +612,193 @@ chmod +x saluda.sh
                 <div class="summary-item"><span class="summary-cmd">| (Pipe)</span><span class="summary-desc">Connecta la sortida d'una comanda a l'entrada d'una altra.</span></div>
                 <div class="summary-item"><span class="summary-cmd">> / 2> / >></span><span class="summary-desc">Redirecció de sortida estàndard i d'errors.</span></div>
                 <div class="summary-item"><span class="summary-cmd">tar -czvf / xzvf</span><span class="summary-desc">Compressió i descompressió d'arxius.</span></div>
+                <div class="summary-item"><span class="summary-cmd">ps / top / kill</span><span class="summary-desc">Visualització i gestió de processos del sistema.</span></div>
             </div>
         </section>
 
-        <!-- BLOC 3 -->
+        <!-- ================= BLOC 3 ================= -->
         <section id="bloc3">
             <h2>BLOC 3: NIVELL AVANÇAT (20 exercicis)</h2>
             
-            <h3>Scripts Bash: Automatització bàsica</h3>
+            <h3 id="b3-scripts">Scripts Bash: Automatització bàsica</h3>
+            
             <div class="exercise-card">
-                <div class="exercise-header">
-                    <span class="badge">Exercici 1</span>
-                    <span class="exercise-title">El teu primer script amb variables</span>
-                </div>
+                <div class="exercise-header"><span class="badge">Ex 1</span><span class="exercise-title">El teu primer script amb variables</span></div>
                 <p class="exercise-desc">Crea un script anomenat `info_sistema.sh` que mostri per pantalla el nom d'usuari, la data actual i el directori on s'està executant.</p>
-                <div class="terminal-block">
-                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">info_sistema.sh</span></div>
-                    <pre><code>#!/bin/bash
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">info_sistema.sh</span></div><pre><code>#!/bin/bash
 echo "Usuari: $USER"
 echo "Data: $(date)"
-echo "Directori: $(pwd)"</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
-                </div>
+echo "Directori: $(pwd)"</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
             </div>
 
-            <h3>Gestió de paquets i serveis</h3>
             <div class="exercise-card">
-                <div class="exercise-header">
-                    <span class="badge">Exercici 8</span>
-                    <span class="exercise-title">Gestionar serveis amb systemd</span>
-                </div>
-                <p class="exercise-desc">Comprova l'estat del servei SSH. Si no està actiu, inicia'l. Després, mira els últims 20 registres del servei.</p>
-                <div class="terminal-block">
-                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
-                    <pre><code>systemctl status ssh
+                <div class="exercise-header"><span class="badge">Ex 2</span><span class="exercise-title">Script amb arguments</span></div>
+                <p class="exercise-desc">Crea un script anomenat `saluda.sh` que rebi un nom com a argument i mostri "Hola, [nom]!". Si no es passa cap argument, ha de mostrar un missatge d'error.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">saluda.sh</span></div><pre><code>#!/bin/bash
+if [ $# -eq 0 ]; then
+    echo "Error: No s'ha passat cap nom."
+    exit 1
+fi
+echo "Hola, $1!"</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 3</span><span class="exercise-title">Condicional if en un script</span></div>
+                <p class="exercise-desc">Crea un script anomenat `comprova.sh` que rebi un nom de fitxer com a argument i digui si existeix o no.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">comprova.sh</span></div><pre><code>#!/bin/bash
+if [ -f "$1" ]; then
+    echo "El fitxer existeix."
+else
+    echo "El fitxer no existeix."
+fi</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 4</span><span class="exercise-title">Bucle for per processar fitxers</span></div>
+                <p class="exercise-desc">Crea un script anomenat `compta_linies.sh` que recorri tots els fitxers `.txt` de la carpeta actual i mostri el número de línies de cadascun.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">compta_linies.sh</span></div><pre><code>#!/bin/bash
+for fitxer in *.txt; do
+    wc -l "$fitxer"
+done</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <h3 id="b3-paquets">Gestió de paquets i serveis del sistema</h3>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 5</span><span class="exercise-title">Actualitzar el sistema</span></div>
+                <p class="exercise-desc">Actualitza la llista de paquets disponibles i després actualitza tots els paquets instal·lats del sistema.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>sudo apt update
+sudo apt upgrade -y</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 6</span><span class="exercise-title">Instal·lar i desinstal·lar programari</span></div>
+                <p class="exercise-desc">Instal·la el paquet `htop` (un visor de processos millorat) i després comprova la seva versió. Finalment, desinstal·la'l.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>sudo apt install htop
+htop --version
+sudo apt remove htop</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 7</span><span class="exercise-title">Cercar paquets</span></div>
+                <p class="exercise-desc">Utilitza `apt search` per trobar paquets relacionats amb "editor de text". Instal·la el que et sembli més interessant (per exemple, `nano` o `vim`).</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>apt search "editor de text"
+sudo apt install vim</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 8</span><span class="exercise-title">Gestionar serveis amb systemd</span></div>
+                <p class="exercise-desc">Comprova l'estat del servei SSH (`ssh` o `sshd`). Si no està actiu, inicia'l. Després, mira els últims 20 registres del servei.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>systemctl status ssh
 sudo systemctl start ssh
-sudo journalctl -u ssh -n 20</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
-                </div>
+sudo journalctl -u ssh -n 20</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
             </div>
 
-            <h3>Processament avançat de text</h3>
+            <h3 id="b3-xarxa">Xarxa i connectivitat</h3>
+
             <div class="exercise-card">
-                <div class="exercise-header">
-                    <span class="badge">Exercici 19</span>
-                    <span class="exercise-title">Processar text amb awk</span>
-                </div>
-                <p class="exercise-desc">Utilitza `awk` per mostrar només el nom d'usuari (primera columna) i el seu shell (última columna) del fitxer `/etc/passwd`.</p>
-                <div class="terminal-block">
-                    <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div>
-                    <pre><code>awk -F: '{print $1, $7}' /etc/passwd</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
-                </div>
+                <div class="exercise-header"><span class="badge">Ex 9</span><span class="exercise-title">Comprovar connectivitat</span></div>
+                <p class="exercise-desc">Utilitza `ping` per comprovar si tens connexió amb el servidor DNS de Google (`8.8.8.8`). Atura el ping amb `Ctrl+C` després de 5 paquets.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>ping -c 5 8.8.8.8</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 10</span><span class="exercise-title">Resolució de noms DNS</span></div>
+                <p class="exercise-desc">Utilitza `dig` o `nslookup` per obtenir la informació DNS del domini `ubuntu.com`. Quina adreça IP té associada?</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>dig ubuntu.com</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 11</span><span class="exercise-title">Descarregar fitxers d'Internet</span></div>
+                <p class="exercise-desc">Utilitza `wget` per descarregar la pàgina principal d'`example.com` i desa-la com `exemple.html`. Després visualitza el seu contingut amb `less`.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>wget -O exemple.html https://example.com
+less exemple.html</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 12</span><span class="exercise-title">Consultar ports oberts</span></div>
+                <p class="exercise-desc">Utilitza `ss` (successor de `netstat`) per llisten tots els ports TCP que estan escoltant al teu sistema.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>ss -tln</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <h3 id="b3-usuaris">Gestió d'usuaris i permisos avançats</h3>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 13</span><span class="exercise-title">Crear un usuari nou</span></div>
+                <p class="exercise-desc">Crea un usuari anomenat `alumne1` amb directori personal i assigna-li una contrasenya. Després, comprova que s'ha creat correctament al fitxer `/etc/passwd`.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>sudo useradd -m alumne1
+sudo passwd alumne1
+grep alumne1 /etc/passwd</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 14</span><span class="exercise-title">Gestionar grups</span></div>
+                <p class="exercise-desc">Crea un grup anomenat `classe` i afegeix l'usuari `alumne1` a aquest grup. Verifica els grups als quals pertany.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>sudo groupadd classe
+sudo usermod -aG classe alumne1
+groups alumne1</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 15</span><span class="exercise-title">Canviar d'usuari</span></div>
+                <p class="exercise-desc">Utilitza `su` per canviar a l'usuari `alumne1`, executa `whoami` per confirmar-ho, i després torna al teu usuari original.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>su - alumne1
+whoami
+exit</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 16</span><span class="exercise-title">Permisos avançats amb chown</span></div>
+                <p class="exercise-desc">Crea un fitxer anomenat `compartit.txt` i fes que el propietari sigui `alumne1` i el grup `classe`. Dona permisos de lectura i escriptura al propietari i al grup, però només lectura a la resta.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>touch compartit.txt
+sudo chown alumne1:classe compartit.txt
+chmod 664 compartit.txt
+ls -l compartit.txt</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <h3 id="b3-cron">Automatització amb Cron</h3>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 17</span><span class="exercise-title">Programar una tasca simple</span></div>
+                <p class="exercise-desc">Edita el teu crontab (`crontab -e`) i programa una tasca que executi `echo "Hola Cron"` cada dia a les 14:00h, guardant la sortida a `cron_log.txt`.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">crontab</span></div><pre><code>0 14 * * * echo "Hola Cron" >> ~/cron_log.txt</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 18</span><span class="exercise-title">Llistar i eliminar tasques programades</span></div>
+                <p class="exercise-desc">Llista totes les teves tasques programades amb `crontab` i després elimina-les totes amb l'opció corresponent.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>crontab -l
+crontab -r</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <h3 id="b3-text">Processament avançat de text</h3>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 19</span><span class="exercise-title">Processar text amb awk</span></div>
+                <p class="exercise-desc">Utilitza `awk` per mostrar només el nom d'usuari (primera columna) i el seu shell (última columna) del fitxer `/etc/passwd`, separats per un espai.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>awk -F: '{print $1, $7}' /etc/passwd</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header"><span class="badge">Ex 20</span><span class="exercise-title">Substituir text amb sed</span></div>
+                <p class="exercise-desc">Crea un fitxer anomenat `prova.txt` amb el text "Hola món, adéu món". Utilitza `sed` per substituir la primera aparició de "món" per "terminal" i desa el resultat a `prova_modificada.txt`.</p>
+                <div class="terminal-block"><div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="terminal-title">bash</span></div><pre><code>echo "Hola món, adéu món" > prova.txt
+sed 's/món/terminal/' prova.txt > prova_modificada.txt
+cat prova_modificada.txt</code></pre><button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button></div>
+            </div>
+
+            <h3>Resum de comandes del Bloc 3</h3>
+            <div class="summary-grid">
+                <div class="summary-item"><span class="summary-cmd">#!/bin/bash</span><span class="summary-desc">Shebang per indicar l'intèrpret de l'script.</span></div>
+                <div class="summary-item"><span class="summary-cmd">apt update / install</span><span class="summary-desc">Gestió de paquets del sistema.</span></div>
+                <div class="summary-item"><span class="summary-cmd">systemctl / journalctl</span><span class="summary-desc">Control i visualització de registres de serveis.</span></div>
+                <div class="summary-item"><span class="summary-cmd">ping / dig / wget</span><span class="summary-desc">Eines de diagnòstic i descàrrega de xarxa.</span></div>
+                <div class="summary-item"><span class="summary-cmd">useradd / usermod</span><span class="summary-desc">Creació i modificació d'usuaris i grups.</span></div>
+                <div class="summary-item"><span class="summary-cmd">awk / sed</span><span class="summary-desc">Processament i substitució avançada de text.</span></div>
             </div>
         </section>
 
-        <!-- PROJECTE FINAL -->
+        <!-- ================= PROJECTE FINAL ================= -->
         <section id="final">
             <div class="exercise-card final-project">
                 <div class="exercise-header">
@@ -542,7 +806,7 @@ sudo journalctl -u ssh -n 20</code></pre>
                     <span class="exercise-title">Script de backup automatitzat</span>
                 </div>
                 <p class="exercise-desc">Crea un script anomenat `backup.sh` que integri tots els coneixements adquirits:</p>
-                <ol style="color: var(--text-secondary); margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                <ol style="color: var(--text-secondary); margin-left: 1.5rem; margin-bottom: 1.5rem; line-height: 1.8;">
                     <li>Rebi com a argument una carpeta a copiar.</li>
                     <li>Comprovi si la carpeta existeix (condicional <code>if</code>).</li>
                     <li>Creï un arxiu <code>.tar.gz</code> amb la data actual al nom.</li>
@@ -559,13 +823,12 @@ sudo journalctl -u ssh -n 20</code></pre>
         </section>
 
         <footer style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--panel-border); color: var(--text-secondary); font-size: 0.9rem; text-align: center;">
-            <p>Generat a partir del repositori <a href="https://github.com/rusben/termex" style="color: var(--accent); text-decoration: none;">rusben/termex</a> | Format HTML interactiu</p>
+            <p>Generat a partir del repositori <a href="https://github.com/rusben/termex" style="color: var(--accent); text-decoration: none;">rusben/termex</a> | Tots els 60 exercicis inclosos</p>
         </footer>
     </main>
 </div>
 
 <script>
-    // Funció per copiar el codi al portapapers
     function copyCode(button) {
         const codeBlock = button.parentElement.querySelector('code');
         const text = codeBlock.innerText;
@@ -585,14 +848,14 @@ sudo journalctl -u ssh -n 20</code></pre>
     }
 
     // Efecte de navegació activa
-    const sections = document.querySelectorAll('section');
+    const sections = document.querySelectorAll('section, h3');
     const navLinks = document.querySelectorAll('.nav-tree a');
 
     window.addEventListener('scroll', () => {
         let current = '';
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
-            if (scrollY >= sectionTop - 100) {
+            if (scrollY >= sectionTop - 150) {
                 current = section.getAttribute('id');
             }
         });
@@ -602,16 +865,6 @@ sudo journalctl -u ssh -n 20</code></pre>
             if (link.getAttribute('href').slice(1) === current) {
                 link.classList.add('active');
             }
-        });
-    });
-
-    // Smooth scroll per als enllaços
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
         });
     });
 </script>
